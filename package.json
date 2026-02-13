@@ -1,0 +1,83 @@
+{
+  "name": "maven-helper",
+  "displayName": "Maven Helper",
+  "description": "Maven dependency UI for Java projects (tree + flat), with reimport, search, jump to source, and version origin.",
+  "version": "0.1.1",
+  "publisher": "local",
+  "engines": {
+    "vscode": "^1.70.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:mavenHelper.open",
+    "onCommand:mavenHelper.openForPom",
+    "onCommand:mavenHelper.reimport",
+    "onLanguage:xml",
+    "workspaceContains:**/pom.xml",
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "mavenHelper.open",
+        "title": "Maven Helper: Open UI"
+      },
+      {
+        "command": "mavenHelper.openForPom",
+        "title": "Maven Helper: Open UI (Current pom.xml)"
+      },
+      {
+        "command": "mavenHelper.reimport",
+        "title": "Maven Helper: Reimport Dependencies"
+      }
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "command": "mavenHelper.openForPom",
+          "when": "resourceFilename == pom.xml",
+          "group": "navigation",
+          "icon": "$(symbol-namespace)"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Maven Helper",
+      "properties": {
+        "mavenHelper.nexusRepositoryUrls": {
+          "type": "array",
+          "default": [],
+          "description": "Optional Nexus/remote Maven repository base URLs used to fetch pom.xml when a dependency module pom is not found in workspace.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "mavenHelper.localRepositoryPaths": {
+          "type": "array",
+          "default": [],
+          "description": "Optional local Maven repository paths checked before Nexus fallback (for private local mirrors).",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "package": "vsce package",
+    "lint": "eslint src --ext ts"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.30",
+    "@types/vscode": "^1.70.0",
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "fast-xml-parser": "^4.4.1"
+  }
+}
